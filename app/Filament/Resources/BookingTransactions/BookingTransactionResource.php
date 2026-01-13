@@ -9,6 +9,7 @@ use App\Filament\Resources\BookingTransactions\Schemas\BookingTransactionForm;
 use App\Filament\Resources\BookingTransactions\Tables\BookingTransactionsTable;
 use App\Models\BookingTransaction;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -20,7 +21,9 @@ class BookingTransactionResource extends Resource
 {
     protected static ?string $model = BookingTransaction::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::CreditCard;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Transaction';
 
     public static function form(Schema $schema): Schema
     {

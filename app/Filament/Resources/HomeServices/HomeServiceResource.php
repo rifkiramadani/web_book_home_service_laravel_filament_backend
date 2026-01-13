@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\HomeServices;
 
 use BackedEnum;
+use UnitEnum;
 use Filament\Tables\Table;
 use App\Models\HomeService;
 use Filament\Schemas\Schema;
@@ -21,7 +22,9 @@ class HomeServiceResource extends Resource
 {
     protected static ?string $model = HomeService::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::PaintBrush;
+
+     protected static string|UnitEnum|null $navigationGroup = 'Product';
 
     public static function form(Schema $schema): Schema
     {

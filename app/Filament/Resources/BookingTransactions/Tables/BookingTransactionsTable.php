@@ -2,18 +2,21 @@
 
 namespace App\Filament\Resources\BookingTransactions\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
+use Filament\Tables\Table;
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use App\Models\BookingTransaction;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Actions\RestoreBulkAction;
-use Filament\Tables\Filters\TrashedFilter;
-use Filament\Tables\Table;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Support\Icons\Heroicon;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Notifications\Notification;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Actions\ForceDeleteBulkAction;
 
 class BookingTransactionsTable
 {
@@ -37,6 +40,25 @@ class BookingTransactionsTable
                 TrashedFilter::make(),
             ])
             ->recordActions([
+                //tombol untuk approve payment
+                Action::make('approve')
+                    ->label('Approve')
+                    ->action(function(BookingTransaction $record) {
+                    //langsung set is_paid nya menjadi true
+                    $record->is_paid = true;
+                    $record->save();
+
+                    Notification::make()
+                        ->title('Payment Completed')
+                        ->body('Payment Has Been Approved')
+                        ->success()
+                        ->icon(Heroicon::OutlinedCheckCircle)
+                        ->iconColor('success')
+                        ->send();
+                })
+                ->color('success')
+                ->requiresConfirmation()
+                ->visible(fn(BookingTransaction $record) => !$record->is_paid),
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
