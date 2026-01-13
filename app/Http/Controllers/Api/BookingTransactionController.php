@@ -17,7 +17,7 @@ class BookingTransactionController extends Controller
     //
     public function store(StoreBookingTransactionRequest $request) {
         //validasi request
-        $validated = $request->validate();
+        $validated = $request->validated();
 
         DB::beginTransaction();
 
@@ -30,7 +30,7 @@ class BookingTransactionController extends Controller
 
             // VALIDASI DATA SEBELUM DI STORE
             //ambil data array ids dari request
-            $serviceids = $request->input('service_ids');
+            $serviceids = $request->input('home_service_ids');
 
             //jika service tidak ada, maka tampilkan pesan error
             if(empty($serviceids)) {
@@ -50,7 +50,7 @@ class BookingTransactionController extends Controller
             $grandTotal = $totalPrice + $tax;
 
             //set schedule_at menjadi keesokan hari nya atau tommorow
-            $validated['schedule_at'] = Carbon::tommorow()->toDateString(); //parse menjadi date string
+            $validated['schedule_at'] = Carbon::tomorrow()->toDateString(); //parse menjadi date string
 
             //set beberapa data transaction payment
             $validated['total_amount'] = $grandTotal;
