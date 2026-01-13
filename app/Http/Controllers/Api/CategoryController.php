@@ -7,5 +7,19 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    //
+    public function index(Request $request) {
+        $categories = Category::query();
+
+        if($request->has('limit')) {
+            $categories->limit($request->input('limit'));
+        }
+
+        return CategoryApiResource::collection($categories->get());
+    }
+
+    public function shoW(Category $category) {
+        $category->load(['homeServices']);
+
+        return new CategoryApiResource($category);
+    }
 }
