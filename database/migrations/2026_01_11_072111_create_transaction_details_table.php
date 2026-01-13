@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('price');
             $table->foreignId('home_service_id')->constrained()->cascadeOnDelete();
             $table->foreignId('booking_transaction_id')->constrained()->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
