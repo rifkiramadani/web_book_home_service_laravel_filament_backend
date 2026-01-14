@@ -10,7 +10,7 @@ use App\Http\Resources\Api\CategoryApiResource;
 class CategoryController extends Controller
 {
     public function index(Request $request) {
-        $categories = Category::query();
+        $categories = Category::withCount(['homeServices']); //sekaligus mengambil relasi home service menghitung jumlah home service
 
         if($request->has('limit')) {
             $categories->limit($request->input('limit'));
