@@ -20,7 +20,8 @@ class CategoryController extends Controller
     }
 
     public function shoW(Category $category) {
-        $category->load(['homeServices']);
+        $category->load(['homeServices', 'popularHomeServices']);
+        $category->loadCount(['homeServices']);
 
         return new CategoryApiResource($category);
     }
